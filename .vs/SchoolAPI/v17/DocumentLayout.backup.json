@@ -28,7 +28,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "D:\\DotNetProjects\\SchoolAPI\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-08T13:00:00.044Z",
               "EditorCaption": ""
@@ -36,15 +36,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SchoolAPI",
+              "Title": "SchoolAPI.csproj",
               "DocumentMoniker": "D:\\DotNetProjects\\SchoolAPI\\SchoolAPI.csproj",
               "RelativeDocumentMoniker": "SchoolAPI.csproj",
               "ToolTip": "D:\\DotNetProjects\\SchoolAPI\\SchoolAPI.csproj",
               "RelativeToolTip": "SchoolAPI.csproj",
               "ViewState": "AgIAAAYAAAAAAAAAAADwvxQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-07-08T11:30:48.584Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-08T11:30:48.584Z"
             }
           ]
         }
