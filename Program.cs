@@ -12,10 +12,11 @@ namespace SchoolAPI
             // Add services to the container
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
 
-            // Optional: Add response compression
-            builder.Services.AddResponseCompression();
+            // // Optional: Add response compression
+            // builder.Services.AddResponseCompression();
 
             // PostgreSQL Connection
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -26,22 +27,23 @@ namespace SchoolAPI
             // Enable Developer Exception Page explicitly
             if (app.Environment.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
 
+                app.MapOpenApi();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SchoolAPI v1");
+                    // c.SwaggerEndpoint("/swagger/v1/swagger.json", "SchoolAPI v1");
                 });
             }
 
             app.UseHttpsRedirection();
 
-            // ? Use response compression EXCEPT for /swagger to prevent Content-Length mismatch
-            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger"), appBuilder =>
-            {
-                appBuilder.UseResponseCompression();
-            });
+            // // ? Use response compression EXCEPT for /swagger to prevent Content-Length mismatch
+            // app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger"), appBuilder =>
+            // {
+            //     appBuilder.UseResponseCompression();
+            // });
 
             app.UseAuthorization();
 

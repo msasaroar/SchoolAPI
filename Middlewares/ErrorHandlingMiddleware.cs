@@ -1,6 +1,6 @@
-﻿namespace SchoolAPI.Middleware
-{
-    public class ErrorHandlingMiddleware
-    {
-    }
-}
+﻿// namespace SchoolAPI.Middleware
+// {
+//     public class ErrorHandlingMiddleware
+//     {
+//     }
+// }
