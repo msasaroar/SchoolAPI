@@ -1,13 +1,13 @@
-﻿// using Microsoft.AspNetCore.Http;
-// using Microsoft.AspNetCore.Mvc;
-//
-// namespace SchoolAPI.Controllers
-// {
-//     /*
-//     [Route("api/[controller]")]
-//     [ApiController]
-//     public class ValuesController : ControllerBase
-//     {
-//     }
-//     */
-// }
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace SchoolAPI.Controllers
+{
+    /*
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ValuesController : ControllerBase
+    {
+    }
+    */
+}
