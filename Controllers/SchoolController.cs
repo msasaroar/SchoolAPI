@@ -48,6 +48,25 @@ namespace SchoolAPI.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchSchools([FromQuery] string? name, [FromQuery] string? address)
+        {
+            var query = _context.Schools.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(s => s.Name.Contains(name));
+
+            if (!string.IsNullOrWhiteSpace(address))
+                query = query.Where(s => s.Address.Contains(address));
+
+            var schools = await query.ToListAsync();
+            return Ok(schools);
+        }
+
+
+
     }
 }
 
