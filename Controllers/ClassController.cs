@@ -63,13 +63,6 @@ namespace SchoolAPI.Controllers
             var Classes = await query.ToListAsync();
             return Ok(Classes);
         }
-
-
-
-
-
-
-
     }
 }
 

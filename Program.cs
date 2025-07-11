@@ -1,5 +1,65 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAPI.Data;
+using System.Text.Json.Serialization;
+
+namespace SchoolAPI
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // PostgreSQL Connection
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Add Controllers with JSON Options to Ignore Cycles
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
+
+            // Swagger/OpenAPI
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            // Response Compression
+            builder.Services.AddResponseCompression();
+
+            var app = builder.Build();
+
+            // Developer Exception Page & Swagger
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            // Exclude Swagger from Response Compression
+            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/swagger"), appBuilder =>
+            {
+                appBuilder.UseResponseCompression();
+            });
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
+}
+
+
+/*
+using Microsoft.EntityFrameworkCore;
+using SchoolAPI.Data;
 
 namespace SchoolAPI
 {
@@ -47,91 +107,6 @@ namespace SchoolAPI
 
             app.MapControllers();
 
-            app.Run();
-        }
-    }
-}
-
-
-
-
-/*
-using Microsoft.EntityFrameworkCore;
-using SchoolAPI.Data;
-
-namespace SchoolAPI
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            // PostgreSQL Connection
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-            var app = builder.Build();
-
-            // Enable Developer Exception Page explicitly
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SchoolAPI v1");
-                });
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
-}
-*/
-
-
-
-
-/*
-using Microsoft.EntityFrameworkCore;
-using SchoolAPI.Data;
-
-namespace SchoolAPI
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            // PostgreSQL Connection
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-            var app = builder.Build();
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-            app.UseAuthorization();
-            app.MapControllers();
             app.Run();
         }
     }
