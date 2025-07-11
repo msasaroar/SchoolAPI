@@ -1,4 +1,4 @@
-﻿namespace SchoolAPI.Model
+﻿namespace SchoolAPI.Models
 {
     public class Teacher
     {
@@ -8,6 +8,6 @@
         public required string Subject { get; set; }
 
         public int SchoolId { get; set; }
-        public required School School { get; set; }
+        public School? School { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SchoolAPI.Middleware
+﻿namespace SchoolAPI.Middlewares
 {
     public class ErrorHandlingMiddleware
     {

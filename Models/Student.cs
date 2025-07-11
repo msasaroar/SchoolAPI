@@ -1,4 +1,4 @@
-﻿namespace SchoolAPI.Model
+﻿namespace SchoolAPI.Models
 {
 	public class Student
 	{
@@ -8,9 +8,9 @@
 		public int Age { get; set; }
 
 		public int SchoolId { get; set; }
-		public required School School { get; set; }
+		public School? School { get; set; }
 
 		public int ClassId { get; set; }
-		public required Class Class { get; set; }
+		public Class? Class { get; set; }
 	}
 }

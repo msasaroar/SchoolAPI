@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SchoolAPI.Model;
+using SchoolAPI.Models;
+
 //using SchoolAPI.Models;
 
 namespace SchoolAPI.Data

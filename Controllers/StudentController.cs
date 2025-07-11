@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolAPI.Data;
-using SchoolAPI.Model;
+using System.IO;
+using SchoolAPI.DTOs;
+using SchoolAPI.Models;
 
 namespace SchoolAPI.Controllers
 {
@@ -16,10 +19,22 @@ namespace SchoolAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            return await _context.Students
+            var data = await _context.Students
                 .Include(s => s.School)
                 .Include(s => s.Class)
+                .Select(s => new StudentDTO
+                {
+                    StudentId = s.StudentId,
+                    Name = s.Name,
+                    Age = s.Age,
+                    SchoolName = s.School.Name,
+                    SchoolAddress = s.School.Address,
+                    ClassName = s.Class.Name,
+                    ClassSection = s.Class.Section,
+                })
                 .ToListAsync();
+
+            return Ok(data);
         }
 
         // ✅ Get student by id

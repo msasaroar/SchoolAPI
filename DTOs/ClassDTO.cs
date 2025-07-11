@@ -1,6 +1,6 @@
 ﻿namespace SchoolAPI.DTOs
 {
-    public class StudentDTO
+    public class ClassDTO
     {
     }
 }

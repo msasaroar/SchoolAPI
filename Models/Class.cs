@@ -1,4 +1,4 @@
-﻿namespace SchoolAPI.Model
+﻿namespace SchoolAPI.Models
 {
     public class Class
     {
@@ -8,8 +8,8 @@
         public required string Section { get; set; }
 
         public int SchoolId { get; set; }
-        public required School School { get; set; }
+        public School? School { get; set; }
 
-        public ICollection<Student> Students { get; set; } = new List<Student>();
+        public ICollection<Student>? Students { get; set; } = new List<Student>();
     }
 }
