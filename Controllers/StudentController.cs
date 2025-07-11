@@ -48,25 +48,32 @@ namespace SchoolAPI.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-    }
-}
 
 
-/*
-using Microsoft.AspNetCore.Mvc;
 
-namespace SchoolAPI.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StudentController : ControllerBase
-    {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchClasses(
+            [FromQuery] string? name,
+            [FromQuery] int? age,
+            [FromQuery] int? schoolid,
+            [FromQuery] int? classid)
         {
-            return Ok("StudentController is working!");
+            var query = _context.Students.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(s => s.Name.Contains(name));
+
+            if (age.HasValue)
+                query = query.Where(s => s.Age == age.Value);
+
+            if (schoolid.HasValue)
+                query = query.Where(s => s.SchoolId == schoolid.Value);
+
+            if (classid.HasValue)
+                query = query.Where(s => s.ClassId == classid.Value);
+
+            var students = await query.ToListAsync();
+            return Ok(students);
         }
     }
 }
-*/
-

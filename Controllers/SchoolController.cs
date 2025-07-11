@@ -13,7 +13,10 @@ namespace SchoolAPI.Controllers
         public SchoolController(ApplicationDbContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<School>>> GetSchools() => await _context.Schools.ToListAsync();
+        public async Task<ActionResult<IEnumerable<School>>> GetSchools()
+        {
+            return await _context.Schools.ToListAsync();
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<School>> GetSchool(int id)
@@ -34,6 +37,7 @@ namespace SchoolAPI.Controllers
         public async Task<IActionResult> PutSchool(int id, School school)
         {
             if (id != school.SchoolId) return BadRequest();
+
             _context.Entry(school).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
@@ -44,11 +48,11 @@ namespace SchoolAPI.Controllers
         {
             var school = await _context.Schools.FindAsync(id);
             if (school == null) return NotFound();
+
             _context.Schools.Remove(school);
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchSchools([FromQuery] string? name, [FromQuery] string? address)
@@ -64,27 +68,5 @@ namespace SchoolAPI.Controllers
             var schools = await query.ToListAsync();
             return Ok(schools);
         }
-
-
-
     }
 }
-
-
-/*
-using Microsoft.AspNetCore.Mvc;
-
-namespace SchoolAPI.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SchoolController : ControllerBase
-    {
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok("SchoolController is working!");
-        }
-    }
-}
-*/

@@ -48,26 +48,28 @@ namespace SchoolAPI.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-    }
-}
 
-
-
-/*
-using Microsoft.AspNetCore.Mvc;
-
-namespace SchoolAPI.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ClassController : ControllerBase
-    {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchClasses([FromQuery] string? name, [FromQuery] string? section)
         {
-            return Ok("ClassController is working!");
+            var query = _context.Classes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(c => c.Name.Contains(name));
+
+            if (!string.IsNullOrWhiteSpace(section))
+                query = query.Where(c => c.Section.Contains(section));
+
+            var Classes = await query.ToListAsync();
+            return Ok(Classes);
         }
+
+
+
+
+
+
+
     }
 }
-*/
 

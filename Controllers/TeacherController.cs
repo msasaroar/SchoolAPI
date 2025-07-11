@@ -48,26 +48,30 @@ namespace SchoolAPI.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-    }
-}
 
-
-
-
-/*
-using Microsoft.AspNetCore.Mvc;
-
-namespace SchoolAPI.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TeacherController : ControllerBase
-    {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchTeachers(
+            [FromQuery] string? name,
+            [FromQuery] int? schoolid,
+            [FromQuery] string? subject)
         {
-            return Ok("TeacherController is working!");
+            var query = _context.Teachers.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(t => t.Name.Contains(name));
+
+            if (schoolid.HasValue)
+                query = query.Where(t => t.SchoolId == schoolid.Value);
+
+            if (!string.IsNullOrWhiteSpace(subject))
+                query = query.Where(t => t.Subject.Contains(subject));
+
+            var teachers = await query.ToListAsync();
+            return Ok(teachers);
         }
+
+
+
+
     }
 }
-*/
