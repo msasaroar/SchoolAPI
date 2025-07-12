@@ -44,6 +44,16 @@ namespace SchoolAPI.Controllers
             var student = await _context.Students
                 .Include(s => s.School)
                 .Include(s => s.Class)
+                .Select(s => new StudentDTO
+                {
+                    StudentId = s.StudentId,
+                    Name = s.Name,
+                    Age = s.Age,
+                    SchoolName = s.School.Name,
+                    SchoolAddress = s.School.Address,
+                    ClassName = s.Class.Name,
+                    ClassSection = s.Class.Section,
+                })
                 .FirstOrDefaultAsync(s => s.StudentId == id);
 
             return student == null ? NotFound() : Ok(student);
@@ -108,7 +118,16 @@ namespace SchoolAPI.Controllers
             if (age.HasValue)
                 query = query.Where(s => s.Age == age.Value);
 
-            var students = await query.ToListAsync();
+            var students = await query.Select(s => new StudentDTO
+            {
+                StudentId = s.StudentId,
+                Name = s.Name,
+                Age = s.Age,
+                SchoolName = s.School.Name,
+                SchoolAddress = s.School.Address,
+                ClassName = s.Class.Name,
+                ClassSection = s.Class.Section,
+            }).ToListAsync();
             return Ok(students);
         }
     }
