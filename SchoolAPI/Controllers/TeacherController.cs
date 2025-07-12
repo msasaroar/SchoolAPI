@@ -27,7 +27,7 @@ namespace SchoolAPI.Controllers
         {
             _context.Teachers.Add(teacher);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTeacher), new { id = teacher.TeacherId }, teacher);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -36,7 +36,7 @@ namespace SchoolAPI.Controllers
             if (id != teacher.TeacherId) return BadRequest();
             _context.Entry(teacher).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -46,7 +46,7 @@ namespace SchoolAPI.Controllers
             if (teacher == null) return NotFound();
             _context.Teachers.Remove(teacher);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
         [HttpGet("search")]

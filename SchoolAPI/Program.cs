@@ -29,6 +29,24 @@ namespace SchoolAPI
             // Response Compression
             builder.Services.AddResponseCompression();
 
+            // Shows UseCors with CorsPolicyBuilder.
+            builder.Services.AddCors(options =>
+                                         options.AddPolicy("CorsPolicy", builder =>
+                                         {
+                                             builder.AllowAnyOrigin()
+                                                    .AllowAnyHeader()
+                                                    .AllowAnyMethod()
+                                                    .SetIsOriginAllowed((host) => true)
+                                                    .AllowCredentials();
+
+                                             builder.WithOrigins("https://localhost:4200")
+                                                    .AllowAnyHeader()
+                                                    .AllowAnyMethod()
+                                                    .SetIsOriginAllowed((host) => true)
+                                                    .AllowCredentials();
+                                         })
+                                    );
+
             var app = builder.Build();
 
             // Developer Exception Page & Swagger
@@ -38,6 +56,8 @@ namespace SchoolAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
 

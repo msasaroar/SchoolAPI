@@ -65,7 +65,7 @@ namespace SchoolAPI.Controllers
         {
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetStudent), new { id = student.StudentId }, student);
+            return Ok();
         }
 
         // ✅ Update student
@@ -77,7 +77,7 @@ namespace SchoolAPI.Controllers
             _context.Entry(student).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         // ✅ Delete student
@@ -90,7 +90,7 @@ namespace SchoolAPI.Controllers
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(true);
         }
 
         // ✅ Search students by student name, school name, class name, age

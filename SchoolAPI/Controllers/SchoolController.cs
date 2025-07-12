@@ -15,7 +15,8 @@ namespace SchoolAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<School>>> GetSchools()
         {
-            return await _context.Schools.ToListAsync();
+            var schools = await _context.Schools.ToListAsync();
+            return Ok(schools);
         }
 
         [HttpGet("{id}")]
@@ -30,7 +31,7 @@ namespace SchoolAPI.Controllers
         {
             _context.Schools.Add(school);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetSchool), new { id = school.SchoolId }, school);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -40,7 +41,7 @@ namespace SchoolAPI.Controllers
 
             _context.Entry(school).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -51,7 +52,7 @@ namespace SchoolAPI.Controllers
 
             _context.Schools.Remove(school);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(true);
         }
 
         [HttpGet("search")]
