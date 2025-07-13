@@ -8,6 +8,7 @@
         public int Age { get; set; }
 
         public int SchoolId { get; set; }
+        public int ClassId { get; set; }
 
         public string SchoolName { get; set; }
         public string SchoolAddress { get; set; }

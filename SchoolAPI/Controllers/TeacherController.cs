@@ -13,7 +13,10 @@ namespace SchoolAPI.Controllers
         public TeacherController(ApplicationDbContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers() => await _context.Teachers.ToListAsync();
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers()
+        {
+            return Ok(await _context.Teachers.ToListAsync());
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Teacher>> GetTeacher(int id)
@@ -46,7 +49,7 @@ namespace SchoolAPI.Controllers
             if (teacher == null) return NotFound();
             _context.Teachers.Remove(teacher);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(true);
         }
 
         [HttpGet("search")]

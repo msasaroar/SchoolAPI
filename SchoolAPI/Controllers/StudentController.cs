@@ -1,8 +1,6 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolAPI.Data;
-using System.IO;
 using SchoolAPI.DTOs;
 using SchoolAPI.Models;
 
@@ -13,6 +11,7 @@ namespace SchoolAPI.Controllers
     public class StudentController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+
         public StudentController(ApplicationDbContext context) => _context = context;
 
         // ✅ Get all students
@@ -20,19 +19,21 @@ namespace SchoolAPI.Controllers
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
             var data = await _context.Students
-                .Include(s => s.School)
-                .Include(s => s.Class)
-                .Select(s => new StudentDTO
-                {
-                    StudentId = s.StudentId,
-                    Name = s.Name,
-                    Age = s.Age,
-                    SchoolName = s.School.Name,
-                    SchoolAddress = s.School.Address,
-                    ClassName = s.Class.Name,
-                    ClassSection = s.Class.Section,
-                })
-                .ToListAsync();
+                                     .Include(s => s.School)
+                                     .Include(s => s.Class)
+                                     .Select(s => new StudentDTO
+                                     {
+                                         StudentId = s.StudentId,
+                                         Name = s.Name,
+                                         Age = s.Age,
+                                         SchoolId = s.SchoolId,
+                                         ClassId = s.ClassId,
+                                         SchoolName = s.School.Name,
+                                         SchoolAddress = s.School.Address,
+                                         ClassName = s.Class.Name,
+                                         ClassSection = s.Class.Section,
+                                     })
+                                     .ToListAsync();
 
             return Ok(data);
         }
@@ -42,19 +43,21 @@ namespace SchoolAPI.Controllers
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
             var student = await _context.Students
-                .Include(s => s.School)
-                .Include(s => s.Class)
-                .Select(s => new StudentDTO
-                {
-                    StudentId = s.StudentId,
-                    Name = s.Name,
-                    Age = s.Age,
-                    SchoolName = s.School.Name,
-                    SchoolAddress = s.School.Address,
-                    ClassName = s.Class.Name,
-                    ClassSection = s.Class.Section,
-                })
-                .FirstOrDefaultAsync(s => s.StudentId == id);
+                                        .Include(s => s.School)
+                                        .Include(s => s.Class)
+                                        .Select(s => new StudentDTO
+                                        {
+                                            StudentId = s.StudentId,
+                                            Name = s.Name,
+                                            Age = s.Age,
+                                            SchoolId = s.SchoolId,
+                                            ClassId = s.ClassId,
+                                            SchoolName = s.School.Name,
+                                            SchoolAddress = s.School.Address,
+                                            ClassName = s.Class.Name,
+                                            ClassSection = s.Class.Section,
+                                        })
+                                        .FirstOrDefaultAsync(s => s.StudentId == id);
 
             return student == null ? NotFound() : Ok(student);
         }
@@ -102,9 +105,9 @@ namespace SchoolAPI.Controllers
             [FromQuery] int? age)
         {
             var query = _context.Students
-                .Include(s => s.School)
-                .Include(s => s.Class)
-                .AsQueryable();
+                                .Include(s => s.School)
+                                .Include(s => s.Class)
+                                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(studentName))
                 query = query.Where(s => s.Name.Contains(studentName));
@@ -119,15 +122,18 @@ namespace SchoolAPI.Controllers
                 query = query.Where(s => s.Age == age.Value);
 
             var students = await query.Select(s => new StudentDTO
-            {
-                StudentId = s.StudentId,
-                Name = s.Name,
-                Age = s.Age,
-                ClassName = s.Class.Name,
-                ClassSection = s.Class.Section,
-                SchoolName = s.School.Name,
-                SchoolAddress = s.School.Address,
-            }).ToListAsync();
+                                      {
+                                          StudentId = s.StudentId,
+                                          Name = s.Name,
+                                          Age = s.Age,
+                                          SchoolId = s.SchoolId,
+                                          ClassId = s.ClassId,
+                                          SchoolName = s.School.Name,
+                                          SchoolAddress = s.School.Address,
+                                          ClassName = s.Class.Name,
+                                          ClassSection = s.Class.Section,
+                                      })
+                                      .ToListAsync();
             return Ok(students);
         }
     }

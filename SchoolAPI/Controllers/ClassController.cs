@@ -13,7 +13,10 @@ namespace SchoolAPI.Controllers
         public ClassController(ApplicationDbContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Class>>> GetClasses() => await _context.Classes.ToListAsync();
+        public async Task<ActionResult<IEnumerable<Class>>> GetClasses()
+        {
+            return Ok(await _context.Classes.ToListAsync());
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Class>> GetClass(int id)
