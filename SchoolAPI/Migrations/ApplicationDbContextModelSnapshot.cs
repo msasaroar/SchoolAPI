@@ -46,7 +46,7 @@ namespace SchoolAPI.Migrations
 
                     b.ToTable("Classes");
                 });
-
+            
             modelBuilder.Entity("SchoolAPI.Model.School", b =>
                 {
                     b.Property<int>("SchoolId")
@@ -67,7 +67,7 @@ namespace SchoolAPI.Migrations
 
                     b.ToTable("Schools");
                 });
-
+            
             modelBuilder.Entity("SchoolAPI.Model.Student", b =>
                 {
                     b.Property<int>("StudentId")
